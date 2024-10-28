@@ -13,8 +13,9 @@ struct Pinch_AssignmentApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
+            Cover.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
@@ -22,6 +23,7 @@ struct Pinch_AssignmentApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
 
     var body: some Scene {
         WindowGroup {
