@@ -8,12 +8,12 @@ import SwiftData
 @Model final class Item: Codable, Identifiable {
     @Attribute(.unique) var id: Int
     var name: String
-    var cover: Cover?
+    @Relationship(deleteRule: .cascade) var cover: Cover?
     
-    init() {
-        self.name = ""
-        self.id = 0
-        self.cover = nil
+    init(name: String, id: Int, cover: Cover?) {
+        self.name = name
+        self.id = id
+        self.cover = cover
     }
     
     enum CodingKeys: CodingKey {
@@ -37,29 +37,9 @@ import SwiftData
     }
 }
 
-@Model class Cover: Codable {
-    @Attribute(.unique) var id: Int?
-    var url: String?
-    
-    init() {
-        self.id = nil
-        self.url = nil
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case url
-    }
-    
-    required init(from decoder:Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(Int.self, forKey: .id)
-        url = try values.decode(String.self, forKey: .url)
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(url, forKey: .url)
+extension Item {
+    static func example() -> Item {
+        let item = Item(name: "Zoomanji", id: 1, cover: Cover(id: 1, imageId: "co7anz"))
+        return item
     }
 }

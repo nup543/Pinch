@@ -12,10 +12,9 @@ import SwiftData
 struct Pinch_AssignmentApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
-            Cover.self
+            Item.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
@@ -24,7 +23,7 @@ struct Pinch_AssignmentApp: App {
         }
     }()
     
-
+  
     var body: some Scene {
         WindowGroup {
             ContentView()
