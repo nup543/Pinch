@@ -20,8 +20,7 @@ struct ImageView: View {
                     .scaledToFill()
                     .padding(0.0)
                     .clipped()
-                    .frame(width: frame?.width ?? 0, height: frame?.height ?? 0, alignment: .center)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                   
                     //.background(Color.red)
             } else if phase.error != nil {
                 Image(systemName: "questionmark.diamond")
@@ -30,6 +29,8 @@ struct ImageView: View {
                 ProgressView()
             }
         }
+        .frame(width: frame?.width ?? 0, height: frame?.height ?? 0, alignment: .center)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         
     }
 }

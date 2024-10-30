@@ -16,11 +16,9 @@ struct ContentView: View {
             List {
                 ForEach(items, id: \.id) { item in
                     NavigationLink(destination: GameDetailView(item: item)){
-                        
                         GameListView(item: item)
                             .frame(maxWidth: .infinity)
-                    }
-                   
+                    }.listRowSeparator(.hidden)
                 }
             }
             .navigationTitle("Games")
@@ -40,7 +38,6 @@ struct ContentView: View {
                 }
             }
             .task {
-                            
                 if monitor.connected == .connected {
                     do {
                         try await APIClient.shared.fetchData(modelContext: modelContext)

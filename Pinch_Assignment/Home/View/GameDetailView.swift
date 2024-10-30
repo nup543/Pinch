@@ -14,10 +14,23 @@ struct GameDetailView: View {
     var body: some View {
         
         VStack (spacing: 15) {
-            ImageView(url: APIClient.shared.getCoverImgURL(for: item?.cover?.imageId),
-                                                           frame: (200, 180))
+            ImageView(url: APIClient.shared.getCoverImgURL(for: item?.cover?.imageId),frame: (200, 180))
             Text("\(item?.name ?? "")")
                 .font(.system(size: 25))
+            HStack {
+                Text("Since \((item?.createdAt ?? 0).getDateStringFromUnixTime())")
+                    .font(.system(size: 14))
+                Spacer()
+                Link(destination: URL(string: item?.websiteURL ?? "www.google.com")!) {
+                    Label("Webpage", systemImage: "link")
+                        .font(.footnote)
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding(.bottom, 20)
+            Text("\(item?.summary ?? "-")")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.pink)
             Spacer()
         }
         .padding()

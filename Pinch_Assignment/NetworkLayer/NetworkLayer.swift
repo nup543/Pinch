@@ -30,13 +30,13 @@ struct NetworkLayer {
             .mapError { error in
                 switch error {
                 case is Swift.DecodingError:
-                    return Fail<Any, HTTPNetworkError>(error: HTTPNetworkError.decodingFailed) as! Error//HTTPNetworkError.decodingFailed
+                    return HTTPNetworkError.decodingFailed
                 case _ as URLError:
-                    return Fail<Any, HTTPNetworkError>(error: HTTPNetworkError.badRequest) as! Error//HTTPNetworkError.badRequest
+                    return HTTPNetworkError.badRequest
                 case URLError.notConnectedToInternet:
-                    return Fail<Any, HTTPNetworkError>(error: HTTPNetworkError.userIsOffline) as! Error//HTTPNetworkError.userIsOffline
+                    return HTTPNetworkError.userIsOffline
                 default:
-                    return Fail<Any, HTTPNetworkError>(error: HTTPNetworkError.noData) as! Error//HTTPNetworkError.noData
+                    return HTTPNetworkError.noData
                 }
             }
             .receive(on: DispatchQueue.main)

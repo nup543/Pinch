@@ -16,6 +16,7 @@ struct GameListView: View {
             ImageView(url: APIClient.shared.getCoverImgURL(for: item?.cover?.imageId), frame: (60, 60))
             Text("\(item?.name ?? "")")
                 .font(.system(size: 15))
+                .foregroundColor(.pink)
         }
     }
 }

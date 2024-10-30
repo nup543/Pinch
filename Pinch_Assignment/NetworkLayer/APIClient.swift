@@ -18,7 +18,6 @@ enum ImageSize {
     var errorMessage: String?
     let shooterGameBaseUrl2 = "https://id.twitch.tv/oauth2/token?client_id=\(Keys.clientId)&client_secret=\(Keys.clientSecret)&grant_type=client_credentials"
     let shooterGameBaseUrl = "https://api.igdb.com/v4/games"
-    let gameDetailBaseUrl = "https://www.mmobomb.com/api1/game?id="
     
      var cancellables = Set<AnyCancellable>()
     
@@ -89,62 +88,33 @@ enum ImageSize {
         }
     }
     
-    func fetchDataDetail(id: String) async throws {
-        getShooterGameDetail(id: id)?
-            .sink(receiveCompletion: { completion in
-              switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    if let err = error as? HTTPNetworkError {
-                        switch err {
-                        case HTTPNetworkError.noData:
-                            self.errorMessage = "No data found"
-                        default:
-                            self.errorMessage = "Something went wrong!"
-                        }
-                    }
-                }
-            }, receiveValue: { resultShooter in
-               // guard let self = self else { return  }
-               
-            })
-            .store(in: &APIClient.shared.cancellables)
-    }
-    
-//    func fetchData1(id: String) -> Void {
-//       
-//       // Keys.gameImageId = "\(id)"
-//        var request = gamesRequest
-//        //request?.httpBody = Keys.gameDetailQuery.data(using: .utf8)
-//        URLSession.shared.dataTask(with: request!) { data, response, error in
-//               guard let data else {
-//                  
-//                   return
-//               }
-//               guard let response = response as? HTTPURLResponse, 200 ... 299  ~= response.statusCode else {
-//                  
-//                   return
-//               }
-//                // JSONDecoder() converts data to model of type Array
-//               do {
-//                   let products = try JSONDecoder().decode([Item].self, from: data)
-//                  
-//               }
-//               catch (let error) {
-//                   print("\(error)")
-//                   
-//               }
-//           }.resume()
-//       }
-    
-    func getShooterGames() -> AnyPublisher<[Item], Error>? {
+    func fetchData1()  async throws {
+       
+       // Keys.gameImageId = "\(id)"
         var request = gamesRequest
         request?.httpBody = Keys.gamesQuery.data(using: .utf8)
-        return NetworkLayer().networkPublisher(request: request)
-    }
+        URLSession.shared.dataTask(with: request!) { data, response, error in
+               guard let data else {
+                  
+                   return
+               }
+               guard let response = response as? HTTPURLResponse, 200 ... 299  ~= response.statusCode else {
+                  
+                   return
+               }
+                // JSONDecoder() converts data to model of type Array
+               do {
+                   let products = try JSONDecoder().decode([Item].self, from: data)
+                  
+               }
+               catch (let error) {
+                   print("\(error)")
+                   
+               }
+           }.resume()
+       }
     
-    func getShooterGameDetail(id: String) -> AnyPublisher<Item, Error>? {
+    func getShooterGames() -> AnyPublisher<[Item], Error>? {
         var request = gamesRequest
         request?.httpBody = Keys.gamesQuery.data(using: .utf8)
         return NetworkLayer().networkPublisher(request: request)
@@ -156,6 +126,6 @@ struct Keys {
     static let clientSecret = "73xvnx90dczwjnrsavopfjh6vbimxf"
     static let clientId = "jq8f4najhrmzod83tp00y6h3clowf4"
     static let access_token = "Bearer j7265djys4ujt9w76uz5cr6cj9jrz6"
-    static let gamesQuery = "fields name, cover.image_id;"
+    static let gamesQuery = "fields name, url, created_at, summary, cover.image_id;"
     
 }
