@@ -29,9 +29,23 @@
 		DD4CCB132CCBCBE60090E7B8 /* Pinch_AssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Pinch_AssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DD93FD022CD2BFEC0094F0C3 /* Exceptions for "Pinch_Assignment" folder in "Pinch_AssignmentTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Home/Model/Cover.swift,
+				Home/ViewModel/GameProviderProtocol.swift,
+			);
+			target = DD4CCB082CCBCBE60090E7B8 /* Pinch_AssignmentTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DD4CCAF92CCBCBE20090E7B8 /* Pinch_Assignment */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD93FD022CD2BFEC0094F0C3 /* Exceptions for "Pinch_Assignment" folder in "Pinch_AssignmentTests" target */,
+			);
 			path = Pinch_Assignment;
 			sourceTree = "<group>";
 		};

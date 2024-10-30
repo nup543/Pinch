@@ -10,11 +10,13 @@ import SwiftData
 
 struct GameDetailView: View {
    var item: Item?
+   var viewModel: GameViewModel!
    
     var body: some View {
         
         VStack (spacing: 15) {
-            ImageView(url: GameViewModel.shared.getCoverImgURL(for: item?.cover?.imageId),frame: (200, 180))
+            ImageView(url: viewModel.getCoverImgURL(for: item?.cover?.imageId),frame: (200, 180))
+                
             Text("\(item?.name ?? "")")
                 .font(.system(size: 25))
             HStack {
@@ -28,7 +30,7 @@ struct GameDetailView: View {
                 }
             }
             .padding(.bottom, 20)
-            Text("\(item?.summary ?? "-")")
+            Text("\(item?.summary ?? "-----")")
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.pink)
             Spacer()

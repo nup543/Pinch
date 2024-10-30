@@ -12,9 +12,9 @@ enum ImageSize {
     case big
 }
 
-@Observable class GameViewModel {
+@Observable class GameViewModel: GameProviderProtocol {
     
-    static var shared = GameViewModel()
+    var modelContext: ModelContext!
     let accessTokenUrl = "https://id.twitch.tv/oauth2/token?client_id=\(Keys.clientId)&client_secret=\(Keys.clientSecret)&grant_type=client_credentials"
     var cancellables = Set<AnyCancellable>()
     
@@ -28,12 +28,12 @@ enum ImageSize {
     }
     
     
-    init() {
-        
+    required init(modelContext: ModelContext) {
+        self.modelContext = modelContext
     }
     
     @MainActor
-    func fetchData(modelContext: ModelContext) async throws {
+    func fetchData() async throws {
         getGames()?
             .sink(receiveCompletion: { completion in
               switch completion {
@@ -49,20 +49,14 @@ enum ImageSize {
                         }
                     }
                 }
-            }, receiveValue: { result in
+            }, receiveValue: { [weak self] result in
                 DispatchQueue.main.async {
-                    result.forEach { modelContext.insert($0) }
-                    do {
-                        try modelContext.save()
-                    }
-                    catch {
-                        
-                    }
+                    self?.saveGamesLocally(data: result, modelContext: self?.modelContext)
                 }
-                
             })
-            .store(in: &GameViewModel.shared.cancellables)
+            .store(in: &cancellables)
     }
+
     
     func getCoverImgURL(for id: String?, imageSize: ImageSize = .small) -> String {
         switch imageSize {
@@ -73,29 +67,6 @@ enum ImageSize {
         }
     }
     
-    func fetchData1()  async throws {
-        var request = gamesRequest
-        request?.httpBody = Keys.gamesQuery.data(using: .utf8)
-        URLSession.shared.dataTask(with: request!) { data, response, error in
-               guard let data else {
-                  
-                   return
-               }
-               guard let response = response as? HTTPURLResponse, 200 ... 299  ~= response.statusCode else {
-                  
-                   return
-               }
-               do {
-                   let products = try JSONDecoder().decode([Item].self, from: data)
-                  
-               }
-               catch (let error) {
-                   print("\(error)")
-                   
-               }
-           }.resume()
-       }
-    
     func getGames() -> AnyPublisher<[Item], Error>? {
         var request = gamesRequest
         request?.setValue(Keys.access_token, forHTTPHeaderField: "Authorization")
@@ -105,7 +76,7 @@ enum ImageSize {
     }
 }
 
-struct Keys {
+enum Keys {
     static let clientSecret = "73xvnx90dczwjnrsavopfjh6vbimxf"
     static let clientId = "jq8f4najhrmzod83tp00y6h3clowf4"
     static let access_token = "Bearer j7265djys4ujt9w76uz5cr6cj9jrz6" // it expires in > 50 days
@@ -113,5 +84,4 @@ struct Keys {
     static let gameBaseUrl = "https://api.igdb.com/v4/games"
     static let tokenKey = "token"
     static let expirationKey = "expirationTime"
-    
 }

@@ -51,7 +51,8 @@ import SwiftData
 
 extension Item {
     static func example() -> Item {
-        let item = Item(name: "Zoomanji", id: 1, summary: "Shoot bubbles and match colors to pop your way up to victory in this bubble shooting adventure, win magic keys to unlock more secret colorful bubble world, it’s time to enjoy the endless bubble shooting fun!", websiteURL: "https://www.igdb.com/games/bubble-whirl-shooter", createdAt: 1521138594, cover: Cover(id: 1, imageId: "co7anz"))
+        let item = Item(name: "Zoomanji", id: 1, summary: "Shoot bubbles and match colors to pop your way up to victory in this bubble shooting adventure, win magic keys to unlock more secret colorful bubble world, it’s time to enjoy the endless bubble shooting fun!", websiteURL: "https://www.igdb.com/games/bubble-whirl-shooter", createdAt: 1521138594, cover: Cover.example())
         return item
     }
 }
+

@@ -8,13 +8,7 @@
 import UIKit
 import Combine
 
-public enum HTTPNetworkError: Error {
-    case badRequest
-    case decodingFailed
-    case userIsOffline
-    case noData
-    
-}
+
 struct NetworkLayer {
  
     func networkPublisher<T: Codable>(request: URLRequest?) -> AnyPublisher<T,Error>? {

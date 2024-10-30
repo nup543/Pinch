@@ -30,6 +30,7 @@ struct ImageView: View {
             }
         }
         .frame(width: frame?.width ?? 0, height: frame?.height ?? 0, alignment: .center)
+        .border(Color.gray)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         
     }

@@ -7,7 +7,7 @@
 import Foundation
 import SwiftData
 
-@Model class Cover: Codable {
+@Model final class Cover: Codable {
     @Attribute(.unique) var id: Int?
     var imageId: String?
     
@@ -31,5 +31,12 @@ import SwiftData
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(imageId, forKey: .imageId)
+    }
+}
+
+extension Cover {
+    static func example() -> Cover {
+        let item = Cover(id: 1, imageId: "co7anz")
+        return item
     }
 }

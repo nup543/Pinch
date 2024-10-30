@@ -10,7 +10,6 @@ extension Double {
     func getDateStringFromUnixTime() -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        //dateFormatter.locale = Locale(localeIdentifier: Locale.current.localeIdentifier)
         dateFormatter.dateFormat = "MMMM dd YYYY"
         return dateFormatter.string(from: date)
     }

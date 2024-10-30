@@ -7,7 +7,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    var apiClient = GameViewModel()
+    @State var viewModel: GameViewModel!
     @Query(sort: \Item.name , order: .forward) private var items: [Item]
     var monitor = Reachability()
    
@@ -15,8 +15,8 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(items, id: \.id) { item in
-                    NavigationLink(destination: GameDetailView(item: item)){
-                        GameListView(item: item)
+                    NavigationLink(destination: GameDetailView(item: item, viewModel: viewModel)){
+                        GameListView(item: item, viewModel: viewModel)
                             .frame(maxWidth: .infinity)
                     }.listRowSeparator(.hidden)
                 }
@@ -25,23 +25,24 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.large)
             .refreshable {
                 do {
-                    try await GameViewModel.shared.fetchData(modelContext: modelContext)
+                    try await viewModel.fetchData()
                 }
                 catch {
                     print(error)
                 }
             }
             .overlay{
-                
                 if items.isEmpty {
                     ProgressView()
                 }
             }
-            
+            .onAppear {
+                self.viewModel = GameViewModel(modelContext: modelContext)
+            }
             .task {
                 if monitor.connected == .connected {
                     do {
-                        try await GameViewModel.shared.fetchData(modelContext: modelContext)
+                        try await viewModel.fetchData()
                     }
                     catch {
                         print(error)
