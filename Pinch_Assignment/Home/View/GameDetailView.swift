@@ -14,7 +14,7 @@ struct GameDetailView: View {
     var body: some View {
         
         VStack (spacing: 15) {
-            ImageView(url: APIClient.shared.getCoverImgURL(for: item?.cover?.imageId),frame: (200, 180))
+            ImageView(url: GameViewModel.shared.getCoverImgURL(for: item?.cover?.imageId),frame: (200, 180))
             Text("\(item?.name ?? "")")
                 .font(.system(size: 25))
             HStack {

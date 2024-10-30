@@ -7,7 +7,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    var apiClient = APIClient()
+    var apiClient = GameViewModel()
     @Query(sort: \Item.name , order: .forward) private var items: [Item]
     var monitor = Reachability()
    
@@ -25,7 +25,7 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.large)
             .refreshable {
                 do {
-                    try await APIClient.shared.fetchData(modelContext: modelContext)
+                    try await GameViewModel.shared.fetchData(modelContext: modelContext)
                 }
                 catch {
                     print(error)
@@ -37,10 +37,11 @@ struct ContentView: View {
                     ProgressView()
                 }
             }
+            
             .task {
                 if monitor.connected == .connected {
                     do {
-                        try await APIClient.shared.fetchData(modelContext: modelContext)
+                        try await GameViewModel.shared.fetchData(modelContext: modelContext)
                     }
                     catch {
                         print(error)
