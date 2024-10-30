@@ -82,6 +82,4 @@ enum Keys {
     static let access_token = "Bearer j7265djys4ujt9w76uz5cr6cj9jrz6" // it expires in > 50 days
     static let gamesQuery = "fields name, url, created_at, summary, cover.image_id;"
     static let gameBaseUrl = "https://api.igdb.com/v4/games"
-    static let tokenKey = "token"
-    static let expirationKey = "expirationTime"
 }
